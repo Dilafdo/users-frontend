@@ -1,0 +1,20 @@
+<p>user-list works!</p>
+
+<div class="container mt-5">
+  <h2>List of Users</h2>
+  <table class="table">
+    <caption>Users</caption>
+    <thead>
+      <th id="1">First Name</th>
+      <th id="2">Last Name</th>
+      <th id="3">Contact Number</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.contactNo }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
