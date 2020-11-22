@@ -1,1 +1,21 @@
-<p>user-edit works!</p>
+<div class="container mt-5">
+  <h2>{{ header }}</h2>
+
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input type="text" class="form-control" id="firstName" ngModel name="firstName">
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input type="text" class="form-control" id="lastName" ngModel name="lastName">
+    </div>
+    <div class="form-group">
+      <label for="contactNo">Contact Number</label>
+      <input type="text" class="form-control" id="contactNo" ngModel name="contactNo">
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+  </form>
+</div>
