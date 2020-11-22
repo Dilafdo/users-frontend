@@ -14,7 +14,12 @@
         <td>{{ user.firstName }}</td>
         <td>{{ user.lastName }}</td>
         <td>{{ user.contactNo }}</td>
-        <td><a [routerLink]="['user/edit', user.id]">Edit</a></td>
+        <td class="action-btn-column">
+          <a [routerLink]="['user/edit', user.id]" class="mr-2">Edit</a>
+          <p class="mr-2">|</p>
+<!--          <a href="" (click)="onDelete(user.id)">Delete</a>-->
+          <button (click)="onDelete(user.id)" class="btn-user-action-delete">Delete</button>
+        </td>
       </tr>
     </tbody>
   </table>

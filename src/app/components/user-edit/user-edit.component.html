@@ -4,15 +4,15 @@
   <form (ngSubmit)="onSubmit(f)" #f="ngForm">
     <div class="form-group">
       <label for="firstName">First Name</label>
-      <input type="text" class="form-control" id="firstName" ngModel name="firstName">
+      <input type="text" class="form-control" id="firstName" [ngModel]="user.firstName" name="firstName">
     </div>
     <div class="form-group">
       <label for="lastName">Last Name</label>
-      <input type="text" class="form-control" id="lastName" ngModel name="lastName">
+      <input type="text" class="form-control" id="lastName" [ngModel]="user.lastName" name="lastName">
     </div>
     <div class="form-group">
       <label for="contactNo">Contact Number</label>
-      <input type="text" class="form-control" id="contactNo" ngModel name="contactNo">
+      <input type="text" class="form-control" id="contactNo" [ngModel]="user.contactNo" name="contactNo">
     </div>
     <div>
       <button type="submit" class="btn btn-primary">Save</button>

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../services/user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -9,13 +10,29 @@ import {UserService} from '../../services/user.service';
 export class UserListComponent implements OnInit {
   users: any[] = [];
 
-  constructor(private userService: UserService) {
+  constructor(
+    private router: Router,
+    private userService: UserService
+  ) {
   }
 
   ngOnInit(): void {
+    this.fetchData();
+  }
+
+  fetchData() {
     this.userService.getAllUsers().subscribe((users: any[]) => {
       this.users = users;
     });
+  }
+
+  onDelete(id: string) {
+    console.log('id', id);
+    this.userService.deleteUser(id)
+      .subscribe(() => {
+        this.fetchData();
+        console.log('deleted');
+      });
   }
 
 }
