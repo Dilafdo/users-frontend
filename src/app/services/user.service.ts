@@ -19,7 +19,7 @@ export class UserService {
    * fetch all users from the server
    */
   getAllUsers() {
-    return this.http.get(this.SERVER_URL + '/users', {headers: new HttpHeaders({'Content-Type': 'application/json'})});
+    return this.http.get(this.SERVER_URL + '/users', {headers: new HttpHeaders().set('Content-Type', 'application/json')});
   }
 
   /**
@@ -31,16 +31,28 @@ export class UserService {
     return this.http.post(
       this.SERVER_URL + '/users',
       user,
-      {headers: new HttpHeaders({'Content-Type': 'application/json'})})
-      .toPromise();
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')})
+      .pipe(
+        catchError(err => throwError(err))
+      );
   }
 
+  /**
+   * delete a user in user service
+   *
+   * @param id :user id of the user to delete
+   */
   deleteUser(id: string): Observable<void> {
-    return this.http.delete<void>(this.SERVER_URL + '/users/' + id);
+    return this.http.delete<void>(this.SERVER_URL + '/users/' + id, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
   }
 
+  /**
+   * retrieve a user by user id
+   *
+   * @param id : user id of the user to retrieve
+   */
   getUser(id: string) {
-    return this.http.get(this.SERVER_URL + '/users/' + id)
+    return this.http.get(this.SERVER_URL + '/users/' + id, {headers: new HttpHeaders().set('Content-Type', 'application/json')})
       .pipe(
         catchError((err) => {
           return throwError(err);
@@ -48,8 +60,15 @@ export class UserService {
       );
   }
 
+  /**
+   * edit a user by Id
+   *
+   * @param id : user id of the user to edit
+   * @param user : user entity of updated user
+   */
   editUser(id: string, user: User): Observable<void> {
-    return this.http.put<void>(this.SERVER_URL + '/users/' + id , user);
+    return this.http.put<void>(this.SERVER_URL + '/users/' + id, user,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
   }
 }
 

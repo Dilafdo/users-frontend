@@ -13,7 +13,14 @@ export class UserEditComponent implements OnInit {
   id: string;
   header: string;
   response: any;
-  user: User;
+  errorMsg = '';
+  user: User = {
+    userName: '',
+    firstName: '',
+    lastName: '',
+    contactNo: '',
+    email: ''
+  };
 
   constructor(
     private router: Router,
@@ -36,25 +43,47 @@ export class UserEditComponent implements OnInit {
     }
   }
 
-  onSubmit(form: NgForm) {
+  delay(ms: number){
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async onSubmit(form: NgForm) {
     console.log('submitted', form.value);
     const user: User = {
+      userName: form.value.userName,
       firstName: form.value.firstName,
       lastName: form.value.lastName,
-      contactNo: form.value.contactNo
+      contactNo: form.value.contactNo,
+      email: form.value.email
     };
 
     if (this.id === '0') {
-      this.userService.addUser(user).then(data => {
-        this.response = data;
-        console.log('page', this.response);
+      this.userService.addUser(user).subscribe(success => {
+        this.response = success;
+        this.errorMsg = '';
+        console.log('page', this.response, 'page errorMsg', this.errorMsg);
+      }, error => {
+        this.errorMsg = error.error.message;
+        console.log('page errorMsg', this.errorMsg, ' page response', this.response);
       });
     } else {
       this.userService.editUser(this.id, user)
-        .subscribe(value => {
-          console.log('updated');
+        .subscribe(success => {
+          this.response = success;
+          this.errorMsg = '';
+        }, error => {
+          this.errorMsg = error.error.message;
         });
     }
+
+    await this.delay(100);
+
+    if (this.errorMsg === '') {
+      this.router.navigateByUrl('').then();
+    }
+  }
+
+  onCancel() {
     this.router.navigateByUrl('').then();
   }
 

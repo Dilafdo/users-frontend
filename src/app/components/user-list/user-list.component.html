@@ -4,16 +4,20 @@
   <table class="table">
     <caption> </caption>
     <thead>
-      <th id="1">First Name</th>
-      <th id="2">Last Name</th>
-      <th id="3">Contact Number</th>
-      <th id="4">Action</th>
+      <th id="1">User Name</th>
+      <th id="2">First Name</th>
+      <th id="3">Last Name</th>
+      <th id="4">Contact Number</th>
+      <th id="5">Email Address</th>
+      <th id="6">Action</th>
     </thead>
     <tbody>
       <tr *ngFor="let user of users">
+        <td>{{ user.userName }}</td>
         <td>{{ user.firstName }}</td>
         <td>{{ user.lastName }}</td>
         <td>{{ user.contactNo }}</td>
+        <td>{{ user.email }}</td>
         <td class="action-btn-column">
           <a [routerLink]="['user/edit', user.id]" class="mr-2">Edit</a>
           <p class="mr-2">|</p>
