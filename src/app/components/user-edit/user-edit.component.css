@@ -8,4 +8,10 @@
 
 label{
   font-weight: bold;
+  display: flex;
+}
+
+p{
+  margin-bottom: -16px;
+  color: red;
 }

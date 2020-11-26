@@ -6,53 +6,75 @@
 
   <h2 class="pb-3 header-color justify-content-center">{{ header }}</h2>
 
-  <form (ngSubmit)="onSubmit(userFormControl)" #userFormControl="ngForm" name="userForm">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="userName">User Name</label>
-      <input required type="text" class="form-control" id="userName" [(ngModel)]="user.userName"
-             name="userName" placeholder="Please Enter User Name Here" #userNameControl="ngModel">
-      <span class="help-block" *ngIf="userNameControl.invalid && userNameControl.touched">
-        User name is Required!
-      </span>
+      <label for="userName">User Name<p>*</p></label>
+      <input type="text"
+             class="form-control"
+             id="userName"
+             [(ngModel)]="user.userName"
+             formControlName="userName"
+             placeholder="Please Enter User Name Here">
+      <div *ngIf="f.userName.touched && f.userName.invalid" class="alert alert-danger">
+        <div *ngIf="f.userName.errors.required">User Name is required.</div>
+        <div *ngIf="f.userName.errors.pattern">Enter only letters.</div>
+      </div>
     </div>
     <div class="form-group">
-      <label for="firstName">First Name</label>
-      <input required type="text" class="form-control" id="firstName" [(ngModel)]="user.firstName"
-             name="firstName" placeholder="Please Enter First Name Here" #firstNameControl="ngModel">
-      <span class="help-block" *ngIf="firstNameControl.invalid && firstNameControl.touched">
-        Full name is Required!
-      </span>
-    </div>
-<!--    <div>touched: {{fullNameControl.touched}}</div>-->
-<!--    <div>untouched: {{fullNameControl.untouched}}</div>-->
-<!--    <div>valid: {{fullNameControl.valid}}</div>-->
-    <div class="form-group">
-      <label for="lastName">Last Name</label>
-      <input required type="text" class="form-control" id="lastName" [(ngModel)]="user.lastName"
-             name="lastName" placeholder="Please Enter Last Name Here" #lastNameControl="ngModel">
-      <span class="help-block" *ngIf="lastNameControl.invalid && lastNameControl.touched">
-        Last name is Required!
-      </span>
+      <label for="firstName">First Name<p>*</p></label>
+      <input type="text"
+             formControlName="firstName"
+             class="form-control"
+             id="firstName"
+             [(ngModel)]="user.firstName"
+             name="firstName"
+             placeholder="Please Enter First Name Here">
+      <div *ngIf="f.firstName.touched && f.firstName.invalid" class="alert alert-danger">
+        <div *ngIf="f.firstName.errors.required">First Name is required.</div>
+      </div>
     </div>
     <div class="form-group">
-      <label for="contactNo">Contact Number</label>
-      <input required maxlength="10" type="number" class="form-control" id="contactNo" [(ngModel)]="user.contactNo"
-             name="contactNo" placeholder="Please Enter Contact Number Here" #contactNoControl="ngModel">
-      <span class="help-block" *ngIf="contactNoControl.invalid && contactNoControl.touched">
-        Contact Number is Required!
-      </span>
+      <label for="lastName">Last Name<p>*</p></label>
+      <input type="text"
+             formControlName="lastName"
+             class="form-control"
+             id="lastName" [(ngModel)]="user.lastName"
+             name="lastName"
+             placeholder="Please Enter Last Name Here">
+      <div *ngIf="f.lastName.touched && f.lastName.invalid" class="alert alert-danger">
+        <div *ngIf="f.lastName.errors.required">Last Name is required.</div>
+      </div>
     </div>
     <div class="form-group">
-      <label for="email">Email Address</label>
-      <input required  type="email" class="form-control" id="email" [(ngModel)]="user.email"
-             name="email" placeholder="Please Enter Email Address Here" #emailControl="ngModel">
-      <span class="help-block" *ngIf="emailControl.invalid && emailControl.touched">
-        Email Address is Required!
-      </span>
+      <label for="contactNo">Contact Number<p>*</p></label>
+      <input type="text"
+             formControlName="contactNo"
+             class="form-control"
+             id="contactNo"
+             [(ngModel)]="user.contactNo"
+             placeholder="Please Enter Contact Number Here">
+      <div *ngIf="f.contactNo.errors && (f.contactNo.dirty && f.contactNo.touched)" class="alert alert-danger">
+        <div *ngIf="f.contactNo.errors.required">Number is required.</div>
+        <div *ngIf="f.contactNo.errors.pattern">Enter only number.</div>
+        <div *ngIf="f.contactNo.errors.minlength || f.contactNo.errors.maxlength">Contact Number must be 10 digit long.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email">Email Address<p>*</p></label>
+      <input type="text"
+             formControlName="email"
+             class="form-control"
+             id="email" [(ngModel)]="user.email"
+             name="email"
+             placeholder="Please Enter Email Address Here">
+      <div *ngIf="f.email.touched && f.email.invalid" class="alert alert-danger">
+        <div *ngIf="f.email.errors.required">Email is required.</div>
+        <div *ngIf="f.email.errors.pattern">Please Enter a Valid Email Address.</div>
+      </div>
     </div>
     <div>
-      <button type="submit" class="btn btn-primary mt-3" [disabled]="userFormControl.invalid">Save</button>
-      <button type="button" class="btn btn-secondary mt-3 ml-3" (click)="onCancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary mt-3" [disabled]="!form.valid">Save</button>
+      <button type="button" class="btn btn-secondary mt-3 ml-2" (click)="onCancel()">Cancel</button>
     </div>
   </form>
 </div>

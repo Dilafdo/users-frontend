@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NgForm} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../models/user.model';
 import {UserService} from '../../services/user.service';
 
@@ -10,6 +10,8 @@ import {UserService} from '../../services/user.service';
   styleUrls: ['./user-edit.component.css']
 })
 export class UserEditComponent implements OnInit {
+  form: FormGroup = new FormGroup({});
+
   id: string;
   header: string;
   response: any;
@@ -25,8 +27,17 @@ export class UserEditComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private fb: FormBuilder
   ) {
+    this.form = fb.group({
+      contactNo: ['', [Validators.required, Validators.pattern('^[0-9]*$'),
+        Validators.minLength(10), Validators.maxLength(10)]],
+      userName: ['', [Validators.required, Validators.pattern('^[A-z-0-9]*$')]],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.pattern('[^ @]*@[^ @]*')]],
+    });
   }
 
   ngOnInit(): void {
@@ -43,18 +54,22 @@ export class UserEditComponent implements OnInit {
     }
   }
 
+  get f(){
+    return this.form.controls;
+  }
+
   delay(ms: number){
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  async onSubmit(form: NgForm) {
-    console.log('submitted', form.value);
+  async onSubmit() {
+    console.log('submitted', this.form.value);
     const user: User = {
-      userName: form.value.userName,
-      firstName: form.value.firstName,
-      lastName: form.value.lastName,
-      contactNo: form.value.contactNo,
-      email: form.value.email
+      userName: this.form.value.userName,
+      firstName: this.form.value.firstName,
+      lastName: this.form.value.lastName,
+      contactNo: this.form.value.contactNo,
+      email: this.form.value.email
     };
 
     if (this.id === '0') {
